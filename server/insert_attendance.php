@@ -27,8 +27,33 @@ try {
     $pdo = new PDO($dsn, 'neondb_owner', 'npg_9dkOhyiSoE1A');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $stmt = $pdo->prepare("INSERT INTO attendance (qr_id, student_id, attendance_date, year, sect, term, department) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$id, $stu_id, $date, $year, $sect, $term, $department]);
+    // Find the corresponding class by QR code and ensure it has not expired
+    $stmt = $pdo->prepare("SELECT class_id, expires_at FROM classes WHERE qr_code = ? AND is_active = true");
+    $stmt->execute([$id]);
+    $class = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$class) {
+        echo json_encode(['response' => 'Invalid or inactive QR code']);
+        exit;
+    }
+
+    $expiresAt = new DateTime($class['expires_at']);
+    $now = new DateTime();
+    if ($now > $expiresAt) {
+        echo json_encode(['response' => 'QR code has expired']);
+        exit;
+    }
+
+    // Prevent duplicate attendance for the same student and class
+    $stmt = $pdo->prepare("SELECT 1 FROM class_attendance WHERE class_id = ? AND student_id = ?");
+    $stmt->execute([$class['class_id'], $stu_id]);
+    if ($stmt->fetch()) {
+        echo json_encode(['response' => 'Attendance already recorded for this student']);
+        exit;
+    }
+
+    $stmt = $pdo->prepare("INSERT INTO class_attendance (class_id, student_id, attendance_date) VALUES (?, ?, ?)");
+    $stmt->execute([$class['class_id'], $stu_id, $date]);
 
     echo json_encode(['response' => 'Attendance recorded successfully']);
 } catch (PDOException $e) {

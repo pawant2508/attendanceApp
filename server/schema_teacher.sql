@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS classes (
     section TEXT,
     qr_code TEXT UNIQUE NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    expires_at TIMESTAMPTZ NOT NULL,
     is_active BOOLEAN DEFAULT true
 );
 

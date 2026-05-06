@@ -24,11 +24,12 @@ try {
     $pdo = new PDO($dsn, 'neondb_owner', 'npg_9dkOhyiSoE1A');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Generate unique QR code
+    // Generate unique QR code and expiry timestamp
     $qr_code = 'QR_' . uniqid() . '_' . time();
+    $expires_at = (new DateTime('+1 minute'))->format('Y-m-d H:i:s');
 
-    $stmt = $pdo->prepare("INSERT INTO classes (teacher_id, class_name, subject, section, qr_code) VALUES (?, ?, ?, ?, ?) RETURNING class_id");
-    $stmt->execute([$teacher_id, $class_name, $subject, $section, $qr_code]);
+    $stmt = $pdo->prepare("INSERT INTO classes (teacher_id, class_name, subject, section, qr_code, expires_at) VALUES (?, ?, ?, ?, ?, ?) RETURNING class_id");
+    $stmt->execute([$teacher_id, $class_name, $subject, $section, $qr_code, $expires_at]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     echo json_encode([
