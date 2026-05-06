@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Portal - QR Code Attendance</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode.js/1.5.3/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -377,14 +378,25 @@
         function generateQRCode(qrCode) {
             document.getElementById('qrDisplay').style.display = 'block';
             document.getElementById('qrcode').innerHTML = '';
-            new QRCode(document.getElementById('qrcode'), {
-                text: qrCode,
-                width: 200,
-                height: 200,
-                colorDark: '#000000',
-                colorLight: '#ffffff',
-                correctLevel: QRCode.CorrectLevel.H
-            });
+            
+            // Use the newer QRCode library
+            if (typeof QRCode !== 'undefined') {
+                new QRCode(document.getElementById('qrcode'), {
+                    text: qrCode,
+                    width: 200,
+                    height: 200,
+                    colorDark: '#000000',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            } else if (typeof qrcode !== 'undefined') {
+                // Fallback for alternative library
+                qrcode.toCanvas(document.getElementById('qrcode'), qrCode, function (error) {
+                    if (error) console.error(error);
+                });
+            } else {
+                alert('QR Code library not loaded. Please refresh the page.');
+            }
             document.getElementById('qrText').textContent = 'QR Code: ' + qrCode;
         }
 
