@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SmartAttendance</string>
+    <string name="smart_attendance">Dashboard</string>
+    <string name="scan_qr">Scan QR</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="designed_and_developed_by_ujjwal_gulhane">Designed and Developed by @HR*</string>
+</resources>
