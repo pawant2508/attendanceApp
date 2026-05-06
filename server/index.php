@@ -1,0 +1,19 @@
+<?php
+header('Content-Type: text/html');
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Attendance API</title>
+</head>
+<body>
+    <h1>QR Code Attendance Backend API</h1>
+    <p>This is the backend server for the QR Code Attendance Android app.</p>
+    <p>Available endpoints:</p>
+    <ul>
+        <li><code>POST /check_login.php</code> - User authentication</li>
+        <li><code>POST /insert_attendance.php</code> - Record attendance</li>
+    </ul>
+    <p>Server is running correctly.</p>
+</body>
+</html>
