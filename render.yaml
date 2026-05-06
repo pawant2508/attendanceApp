@@ -1,1 +1,6 @@
-web: ./server
+services:
+  - type: web
+    name: qr-attendance-backend
+    env: docker
+    buildCommand: docker build -t qr-attendance .
+    startCommand: docker run -p $PORT:80 qr-attendance
