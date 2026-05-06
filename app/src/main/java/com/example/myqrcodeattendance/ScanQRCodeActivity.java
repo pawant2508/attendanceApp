@@ -36,7 +36,7 @@ public class ScanQRCodeActivity extends AppCompatActivity {
     private CaptureManager capture;
     private DecoratedBarcodeView barcodeScannerView;
     private MediaPlayer mediaPlayer;
-    private static final String BASE_URL = "https://projectverse.000webhostapp.com/insert_attendance.php";
+    private static final String BASE_URL = "https://qr-attendance-backend-k724.onrender.com/insert_attendance.php";
     private String studentID;
     private String name;
     private String year;

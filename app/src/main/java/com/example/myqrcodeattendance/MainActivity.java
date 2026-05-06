@@ -34,7 +34,7 @@ import okhttp3.Response;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String BASE_URL = "https://projectverse.000webhostapp.com/check_login.php";
+    private static final String BASE_URL = "https://qr-attendance-backend-k724.onrender.com/check_login.php";
     private static final int REQUEST_CAMERA_PERMISSION = 200;
 
     private final OkHttpClient client = new OkHttpClient();
