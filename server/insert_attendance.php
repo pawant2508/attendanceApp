@@ -11,13 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $id = $_POST['id'] ?? '';
 $stu_id = $_POST['stu_id'] ?? '';
-$date = $_POST['date'] ?? '';
 $year = $_POST['year'] ?? '';
 $sect = $_POST['sect'] ?? '';
 $term = $_POST['term'] ?? '';
 $department = $_POST['department'] ?? '';
 
-if (empty($id) || empty($stu_id) || empty($date) || empty($year) || empty($sect) || empty($term) || empty($department)) {
+if (empty($id) || empty($stu_id) || empty($year) || empty($sect) || empty($term) || empty($department)) {
     echo json_encode(['response' => 'All fields are required']);
     exit;
 }
@@ -52,8 +51,8 @@ try {
         exit;
     }
 
-    $stmt = $pdo->prepare("INSERT INTO class_attendance (class_id, student_id, attendance_date) VALUES (?, ?, ?)");
-    $stmt->execute([$class['class_id'], $stu_id, $date]);
+    $stmt = $pdo->prepare("INSERT INTO class_attendance (class_id, student_id, attendance_date) VALUES (?, ?, now())");
+    $stmt->execute([$class['class_id'], $stu_id]);
 
     echo json_encode(['response' => 'Attendance recorded successfully']);
 } catch (PDOException $e) {
